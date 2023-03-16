@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 
@@ -23,8 +22,3 @@ class DataProcessor():
 
     def save(self):
         self.data.to_csv('data/'+self.data_name+"_trunc.csv")
-
-
-less = DataProcessor("data_full_trunc")
-
-less.display()
