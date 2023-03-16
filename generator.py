@@ -26,4 +26,5 @@ class DataProcessor():
 
 
 less = DataProcessor("data_full_trunc")
+
 less.display()
