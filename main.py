@@ -37,7 +37,9 @@ class modal():
 algo_list = [multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor()),
              multioutput.MultiOutputRegressor(
                  ensemble.HistGradientBoostingRegressor()),
-             multioutput.MultiOutputClassifier(ensemble.RandomForestClassifier())]
+             multioutput.MultiOutputClassifier(
+                 ensemble.RandomForestClassifier()),
+             multioutput.MultiOutputClassifier(ensemble.GradientBoostingClassifier())]
 
 for algo in algo_list:
     modal1 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
