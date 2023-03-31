@@ -22,28 +22,27 @@ class modal():
             self.labels, self.features, test_size=0.2, random_state=42)
         self.modal_ = modal_name.fit(self.train, self.train_labels)
 
-    def modal_accuracy(self):
+    def modal_accuracy_c(self):
         pred = self.modal_.predict(self.test)
-        print(accuracy_score(self.test_labels, pred))
+        print("Acurracy is: "+str(accuracy_score(self.test_labels, pred)))
+
+    def modal_accuracy_r(self):
+        pred = self.modal_.predict(self.test)
+        print("Mean Squared Error is: " +
+              str(mean_squared_error(self.test_labels, pred)))
+
+# we can keep on adding to this list for different algo test
 
 
-# modal1 = modal('data_less_trunc', [
-#         'Po_SG_MVA', 'Po_GFM_MVA', 'Po_GFL_MVA'], 'Total_MVA', SVC())
+algo_list = [multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor()),
+             multioutput.MultiOutputRegressor(
+                 ensemble.HistGradientBoostingRegressor()),
+             multioutput.MultiOutputClassifier(ensemble.RandomForestClassifier())]
 
-# modal1.modal_accuracy()
-
-modal2 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
-               'Po_SG_MVA', 'Po_GFL_MVA'], multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor()))
-
-mse = mean_squared_error(
-    modal2.test_labels, modal2.modal_.predict(modal2.test))
-print(mse)
-
-# for larger modal Hist is useful hai dai so uncomment this code
-
-# modal3 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
-#                'Po_SG_MVA', 'Po_GFL_MVA'], multioutput.MultiOutputRegressor(ensemble.HistGradientBoostingRegressor()))
-
-# mse = mean_squared_error(
-#     modal3.test_labels, modal3.modal_.predict(modal3.test))
-# print(mse)
+for algo in algo_list:
+    modal1 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
+        'Po_SG_MVA', 'Po_GFL_MVA'], algo)
+    try:
+        modal1.modal_accuracy_r()
+    except:
+        modal1.modal_accuracy_c()
