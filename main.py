@@ -1,10 +1,16 @@
 from generator import DataProcessor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import Normalizer
+
 from sklearn.svm import SVC
+from sklearn import ensemble
+from sklearn import multioutput
+
+from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import mean_squared_error
 
 
 class modal():
@@ -21,8 +27,14 @@ class modal():
         print(accuracy_score(self.test_labels, pred))
 
 
-for i in range(10):
-    modal1 = modal('data_less_trunc', [
-        'Po_SG_MVA', 'Po_GFM_MVA', 'Po_GFL_MVA'], 'Total_MVA', SVC())
+# modal1 = modal('data_less_trunc', [
+#         'Po_SG_MVA', 'Po_GFM_MVA', 'Po_GFL_MVA'], 'Total_MVA', SVC())
 
-    modal1.modal_accuracy()
+# modal1.modal_accuracy()
+
+modal2 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
+               'Po_SG_MVA', 'Po_GFL_MVA'], multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor()))
+
+mse = mean_squared_error(
+    modal2.test_labels, modal2.modal_.predict(modal2.test))
+print(mse)
