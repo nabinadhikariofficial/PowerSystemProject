@@ -22,11 +22,11 @@ class modal():
             self.labels, self.features, test_size=0.2, random_state=42)
         self.modal_ = modal_name.fit(self.train, self.train_labels)
 
-    def modal_accuracy_c(self):
+    def modal_accuracy(self):
         pred = self.modal_.predict(self.test)
         print("Acurracy is: "+str(accuracy_score(self.test_labels, pred)))
 
-    def modal_accuracy_r(self):
+    def modal_mse(self):
         pred = self.modal_.predict(self.test)
         print("Mean Squared Error is: " +
               str(mean_squared_error(self.test_labels, pred)))
@@ -45,6 +45,6 @@ for algo in algo_list:
     modal1 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
         'Po_SG_MVA', 'Po_GFL_MVA'], algo)
     try:
-        modal1.modal_accuracy_r()
+        modal1.modal_accuracy()
     except:
-        modal1.modal_accuracy_c()
+        modal1.modal_mse()
