@@ -38,3 +38,12 @@ modal2 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
 mse = mean_squared_error(
     modal2.test_labels, modal2.modal_.predict(modal2.test))
 print(mse)
+
+# for larger modal Hist is useful hai dai so uncomment this code
+
+# modal3 = modal('data_less_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
+#                'Po_SG_MVA', 'Po_GFL_MVA'], multioutput.MultiOutputRegressor(ensemble.HistGradientBoostingRegressor()))
+
+# mse = mean_squared_error(
+#     modal3.test_labels, modal3.modal_.predict(modal3.test))
+# print(mse)
