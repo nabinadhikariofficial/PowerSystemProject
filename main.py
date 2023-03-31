@@ -48,9 +48,9 @@ algo_list = [multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor
              multioutput.MultiOutputClassifier(ensemble.GradientBoostingClassifier())]
 
 for algo in algo_list:
-    modal1 = modal('data_Full_trunc', ['Total_MVA', 'Po_GFM_MVA', 'Fre_SG_Hz',
-                                       'Fre_GFM_Hz', 'Fre_GFL_Hz', 'Vo_SG_PU',
-                                       'Vo_GFM_PU', 'Vo_GFL_PU'], [
+    modal1 = modal('data_trunc', ['Total_MVA', 'Po_GFM_MVA', 'Fre_SG_Hz',
+                                  'Fre_GFM_Hz', 'Fre_GFL_Hz', 'Vo_SG_PU',
+                                  'Vo_GFM_PU', 'Vo_GFL_PU'], [
         'Po_SG_MVA', 'Po_GFL_MVA'], algo)
     try:
         temp = modal1.modal_accuracy()
