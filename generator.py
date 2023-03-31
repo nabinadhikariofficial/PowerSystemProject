@@ -3,7 +3,7 @@ import pandas as pd
 
 class DataProcessor():
     def __init__(self, data_name):
-        self.data = pd.read_csv('data/'+data_name+".csv", index_col=0)
+        self.data = pd.read_csv('data/'+data_name+".csv", index_col=0)[:500]
         self.cols = self.data.columns.tolist()
         self.data_name = data_name
 
