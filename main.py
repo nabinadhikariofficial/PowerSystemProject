@@ -8,6 +8,8 @@ from sklearn.preprocessing import Normalizer
 from sklearn.svm import SVC
 from sklearn import ensemble
 from sklearn import multioutput
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import LogisticRegression
 
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
@@ -20,7 +22,7 @@ class modal():
         self.labels = self.data.data[label_names]
         self.features = self.data.data[feature_names]
         self.train, self.test, self.train_labels, self.test_labels = train_test_split(
-            self.labels, self.features, test_size=0.2, random_state=30)
+            self.labels, self.features, test_size=0.25, random_state=30)
         self.modal_ = modal_name.fit(self.train, self.train_labels)
 
     def modal_accuracy(self):
@@ -34,28 +36,30 @@ class modal():
 # we can keep on adding to this list for different algo test
 
 
-algolistnames = ['GradientBoostingRegressor', 'HistGradientBoostingRegressor',
+algolistnames = ['GradientBoostingRegressor', 'HistGradientBoostingRegressor', 'Ridge'
                  'RandomForestClassifier', 'HistGradientBoostingClassifier',
-                 'GradientBoostingClassifier']
+                 'GradientBoostingClassifier', 'logisticRegression']
 
 algo_list = [multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor()),
              multioutput.MultiOutputRegressor(
                  ensemble.HistGradientBoostingRegressor()),
+             multioutput.MultiOutputRegressor(Ridge(random_state=123)),
              multioutput.MultiOutputClassifier(
                  ensemble.RandomForestClassifier()),
              multioutput.MultiOutputClassifier(
                  ensemble.HistGradientBoostingClassifier()),
-             multioutput.MultiOutputClassifier(ensemble.GradientBoostingClassifier())]
+             multioutput.MultiOutputClassifier(
+                 ensemble.GradientBoostingClassifier()),
+             multioutput.MultiOutputClassifier(LogisticRegression())]
 
-for algo in algo_list:
-    modal1 = modal('data_trunc', ['Total_MVA', 'Po_GFM_MVA', 'Fre_SG_Hz',
-                                  'Fre_GFM_Hz', 'Fre_GFL_Hz', 'Vo_SG_PU',
-                                  'Vo_GFM_PU', 'Vo_GFL_PU'], [
-        'Po_SG_MVA', 'Po_GFL_MVA'], algo)
+bais = 0
+for i in range(7):
+    modal1 = modal('data_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
+        'Po_SG_MVA', 'Po_GFL_MVA'], algo_list[i+bais])
     try:
         temp = modal1.modal_accuracy()
     except:
         temp = modal1.modal_mse()
     print(temp)
-    filename = 'modal/'+algolistnames[algo_list.index(algo)]+temp+'.pkl'
+    filename = 'modal/'+algolistnames[i+bais]+temp+'.pkl'
     pickle.dump(modal1.modal_, open(filename, 'wb'))
