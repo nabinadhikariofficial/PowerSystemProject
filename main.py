@@ -31,12 +31,13 @@ class modal():
 
     def modal_mse(self):
         pred = self.modal_.predict(self.test)
+        print("Score: "+str(self.modal_.score(self.test, self.test_labels)))
         return ("_MSE_" + str(mean_squared_error(self.test_labels, pred)))
 
 # we can keep on adding to this list for different algo test
 
 
-algolistnames = ['GradientBoostingRegressor', 'HistGradientBoostingRegressor', 'Ridge'
+algolistnames = ['GradientBoostingRegressor', 'HistGradientBoostingRegressor', 'Ridge',
                  'RandomForestClassifier', 'HistGradientBoostingClassifier',
                  'GradientBoostingClassifier', 'logisticRegression']
 
@@ -52,10 +53,11 @@ algo_list = [multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor
                  ensemble.GradientBoostingClassifier()),
              multioutput.MultiOutputClassifier(LogisticRegression())]
 
-bais = 0
-for i in range(7):
-    modal1 = modal('data_trunc', ['Total_MVA', 'Po_GFM_MVA'], [
-        'Po_SG_MVA', 'Po_GFL_MVA'], algo_list[i+bais])
+bais = 4
+for i in range(2):
+    modal1 = modal('data_trunc', ['Total_MVA', 'Po_GFM_MVA', 'Fre_SG_Hz',
+                                  'Fre_GFM_Hz', 'Fre_GFL_Hz', 'Vo_SG_PU',
+                                  'Vo_GFM_PU', 'Vo_GFL_PU'], ['Po_SG_MVA', 'Po_GFL_MVA'], algo_list[i+bais])
     try:
         temp = modal1.modal_accuracy()
     except:
