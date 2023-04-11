@@ -53,8 +53,8 @@ algo_list = [multioutput.MultiOutputRegressor(ensemble.GradientBoostingRegressor
                  ensemble.GradientBoostingClassifier()),
              multioutput.MultiOutputClassifier(LogisticRegression())]
 
-bais = 0
-for i in range(7):
+bais = 4
+for i in range(3):
     modal1 = modal('data_trunc', ['Total_MVA', 'Po_GFM_MVA', 'Fre_SG_Hz',
                                   'Fre_GFM_Hz', 'Fre_GFL_Hz', 'Vo_SG_PU',
                                   'Vo_GFM_PU', 'Vo_GFL_PU'], ['Po_SG_MVA', 'Po_GFL_MVA'], algo_list[i+bais])
