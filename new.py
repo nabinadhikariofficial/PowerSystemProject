@@ -68,4 +68,4 @@ for i in range(1):
     filename = 'modal/1_'+algolistnames[i+bais]+temp+'.pkl'
     filename2 = 'modal/2_'+algolistnames[i+bais]+temp+'.pkl'
     pickle.dump(modal1.modal_, open(filename, 'wb'))
-    pickle.dump(modal2.modal_, open(filename, 'wb'))
+    pickle.dump(modal2.modal_, open(filename2, 'wb'))
